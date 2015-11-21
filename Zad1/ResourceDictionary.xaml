@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:zad1="clr-namespace:Zad2">
+
+    <SolidColorBrush x:Key="squareDisabled" Color="DeepPink"></SolidColorBrush>
+    <SolidColorBrush x:Key="squareEnabled" Color="Beige"></SolidColorBrush>
+
+
+    <zad1:BooleanToBrushConverter x:Key="BooleanToBrushConverter" TrueBrush="{StaticResource squareEnabled}" FalseBrush="{StaticResource squareDisabled}" />
+
+
+</ResourceDictionary>

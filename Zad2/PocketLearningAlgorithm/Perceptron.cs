@@ -84,13 +84,8 @@ namespace Zad2.PocketLearningAlgorithm
 
         private void UpdatePocket()
         {
-            // swap references so Pocket uses a better set of weights
-            var temp = this.Pocket;
-            this.Pocket = this.Weights;
-            this.Weights = temp;
-
-            // clear weights
-            this.Weights.Clear();
+            for (int i = 0; i < Weights.Count; ++i)
+                Pocket[i] = Weights[i];
         }
 
         private void UpdateWeightsValues(double ERR, int exampleId)

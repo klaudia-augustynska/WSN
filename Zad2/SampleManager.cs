@@ -13,8 +13,11 @@ namespace Zad2
 {
     /*
     Opis formatu pliku
+    m - width
+    n - height
+    c - ilość przykładów
 
-m n
+m n c
 011001010... m*n razy
    
     */
@@ -54,7 +57,7 @@ m n
         {
             using (var sw = new StreamWriter(filename))
             {
-                string firstLine = Globals.Cols.ToString() + " " + Globals.Rows.ToString() + Samples.Count().ToString();
+                string firstLine = Globals.Cols.ToString() + " " + Globals.Rows.ToString() + " " + Samples.Count().ToString();
                 sw.WriteLine(firstLine);
 
                 foreach (var item in Samples)

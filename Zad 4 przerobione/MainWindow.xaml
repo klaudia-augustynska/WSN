@@ -1,0 +1,34 @@
+﻿<Window x:Class="Zad_4_przerobione.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Zad_4_przerobione"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="500">
+    <Window.DataContext>
+        <local:ViewModel></local:ViewModel>
+    </Window.DataContext>
+    <Grid>
+        <Border BorderThickness="2" BorderBrush="DarkGoldenrod"  Width="{Binding ParentWidth}" Height="{Binding ParentHeight}">
+            <Canvas x:Name="Canvas">
+                <Canvas.Children>
+                    <Line X1="{Binding PunktZaczepienia.X}"
+                          Y1="{Binding PunktZaczepienia.Y}"
+                          X2="{Binding Łokieć.X, Mode=TwoWay}"
+                          Y2="{Binding Łokieć.Y, Mode=TwoWay}"
+                          Stroke="Red"
+                          StrokeThickness="20"/>
+                    <Line X1="{Binding Łokieć.X, Mode=TwoWay}"
+                          Y1="{Binding Łokieć.Y, Mode=TwoWay}"
+                          X2="{Binding Dłoń.X, Mode=TwoWay}"
+                          Y2="{Binding Dłoń.Y, Mode=TwoWay}"
+                          Stroke="Green"
+                          StrokeThickness="15"/>
+                </Canvas.Children>
+            </Canvas>
+        </Border>
+
+
+    </Grid>
+</Window>

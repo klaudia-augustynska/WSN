@@ -1,0 +1,64 @@
+﻿<Window x:Class="wieżowy.MainWindow"
+        Name="Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:wieżowy"
+        xmlns:i="using:Microsoft.Xaml.Interactivity"
+        Title="Zadanie 1" Height="500" Width="728.546">
+    <Window.DataContext>
+        <local:ViewModel></local:ViewModel>
+    </Window.DataContext>
+    
+    <Grid Name="LayoutRoot" Margin="20,20,20,20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="0" Grid.Column="0">
+        <ItemsControl ItemsSource="{Binding SquareList, Mode=TwoWay}" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Name="Canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                        <Rectangle Width="{Binding Length}" Height="{Binding Length}" Fill="{Binding IsFilled, Converter={StaticResource BooleanToBrushConverter}}" StrokeThickness="1" Stroke="Black" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        </Grid>
+        <Grid Grid.Column="1">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Content="Wyczyść obraz" Name="ClearCanvasButton" Click="ClearCanvasButton_Click"></Button>
+
+            <TabControl Grid.Row="1" Margin="0,15,0,0">
+                <TabItem Header="Rozpoznawanie">
+                    <StackPanel Margin="15,15,15,15">
+                        <TextBlock Text="Rozpoznana cyfra to..."></TextBlock>
+                        <TextBlock Text="{Binding Result}" Name="Answer" FontSize="48" ></TextBlock>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Tryb uczenia">
+                    <StackPanel Margin="15,15,15,15">
+                        <TextBlock Text="Uczony znak:"></TextBlock>
+                        <TextBox Name="CharToLearn"></TextBox>
+                        <Button Content="Dopisz przykład" Name="SaveExampleButton" Margin="0,15,0,0" Click="SaveExampleButton_Click"></Button>
+                        <Button Content="Naucz" Name="LearnButton" Margin="0,15,0,0" Click="TeachButton_Click"></Button>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Window>

@@ -40,7 +40,6 @@ namespace Zad2.PocketLearningAlgorithm
         {
             using (var sr = new StreamReader(filename))
             {
-
                 string firstLine = sr.ReadLine();
                 string[] samplesDescription = firstLine.Split(new char[] { ' ' });
                 string cols = samplesDescription[0];

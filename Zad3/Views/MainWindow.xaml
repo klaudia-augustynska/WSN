@@ -1,0 +1,124 @@
+﻿<Window x:Class="Zad3.Views.MainWindow"
+        Name="Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Zad3.ViewModels"
+        xmlns:i="using:Microsoft.Xaml.Interactivity"
+        Title="Zadanie 3" Height="500" Width="728.546">
+    <Window.DataContext>
+        <local:ViewModel></local:ViewModel>
+    </Window.DataContext>
+
+    <Grid Name="LayoutRoot" Margin="20,20,20,20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ParentWidth}"></ColumnDefinition>
+            <ColumnDefinition Width="40"></ColumnDefinition>
+            <ColumnDefinition Width="{Binding ParentWidth}"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding CanvasSquareList, Mode=TwoWay}" Grid.Row="0" Grid.Column="0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Name="Canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Rectangle Width="{Binding Length}" Height="{Binding Length}" Fill="{Binding IsFilled, Converter={StaticResource BooleanToBrushConverter}}" StrokeThickness="1" Stroke="Black" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TabControl Grid.Row="0" Grid.Column="2">
+
+            <TabItem Header="Rozpoznawanie">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Margin="20,20,20,20" Grid.Row="0">
+                        <Button Margin="0,0,0,10" x:Name="ReadFile" Click="ReadFile_Click">Wczytaj plik z liczbami</Button>
+                        <Button Margin="0,0,0,10" IsEnabled="False" x:Name="TeachProgram" Click="TeachProgram_Click">Naucz wszystkie liczby</Button>
+
+                        <Button Margin="0,0,0,10" IsEnabled="False" x:Name="Recognize" Click="Recognize_Click">Rozpoznaj</Button>
+                        <Button Margin="0,0,0,10" Click="ClearCanvas_Click">Wyczyść</Button>
+
+                        <TextBlock FontSize="25" Margin="0,10,0,0" HorizontalAlignment="Right" Width="255" Text="{Binding Number,Mode=TwoWay}"></TextBlock>
+
+                        <GroupBox Header="Korekta:" Margin="0,5,0,0">
+                            <Grid Margin="10,10,10,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0">To jest</TextBlock>
+                                <ComboBox Grid.Row="1" Grid.Column="0" IsEnabled="False" ItemsSource="{Binding Numbers}" x:Name="ItIs" SelectionChanged="ItIs_SelectionChanged" />
+
+                                <TextBlock Grid.Row="0" Grid.Column="2">To NIE jest</TextBlock>
+                                <ComboBox Grid.Row="1" Grid.Column="2" IsEnabled="False" ItemsSource="{Binding Numbers}" x:Name="ItIsNot" SelectionChanged="ItIsNot_SelectionChanged" />
+
+                                <Button Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Margin="0,10,0,10" x:Name="CorrectAgain" Click="CorrectAgain_Click">Znowu</Button>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+
+                    <Grid Margin="0,0,0,10" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="MoveUp" 
+                                Grid.Row="0" Grid.Column="1" 
+                                Width="{Binding ButtonLength}" Height="{Binding ButtonLength}"
+                                Margin="5,5,5,5" Click="MoveUp_Click">^</Button>
+                        <Button x:Name="MoveLeft" 
+                                Grid.Row="1" Grid.Column="0" 
+                                Width="{Binding ButtonLength}" Height="{Binding ButtonLength}"
+                                Margin="5,5,5,5" Click="MoveLeft_Click">&lt;</Button>
+                        <Button x:Name="MoveRight" 
+                                Grid.Row="1" Grid.Column="2" 
+                                Width="{Binding ButtonLength}" Height="{Binding ButtonLength}"
+                                Margin="5,5,5,5" Click="MoveRight_Click">&gt;</Button>
+                        <Button x:Name="MoveDown" 
+                                Grid.Row="1" Grid.Column="1" 
+                                Width="{Binding ButtonLength}" Height="{Binding ButtonLength}"
+                                Margin="5,5,5,5" Click="MoveDown_Click">v</Button>
+                    </Grid>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Tworzenie przykładów">
+                <StackPanel Margin="20,20,20,20">
+
+                    <GroupBox Header="Dodaj do przykładów jako:">
+                        <StackPanel Margin="10,10,10,10">
+                            <ComboBox Margin="0,0,0,10" ItemsSource="{Binding Numbers}" SelectedIndex="0" x:Name="NumberToAdd"/>
+                            <Button Margin="0,0,0,0" x:Name="AddToSamples" Click="AddToSamples_Click">Dodaj</Button>
+                        </StackPanel>
+                        
+                    </GroupBox>
+                    <Button Margin="0,0,0,10" x:Name="ClearCanvas" Click="ClearCanvas_Click">Wyczyść obraz</Button>
+                    <Button x:Name="SaveAs" Click="SaveAs_Click">Zapisz jako</Button>
+
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
